@@ -8,7 +8,7 @@ const PATH : &str = "./inputs/2025/2.txt";
 
 impl Problem for Input {
     fn part_one(&self) -> u64 {
-        let mut invalids : Vec<u64> = Vec::new();
+        let mut total = 0;
         if let Ok(file) = read_file(PATH) {
             let bytes = file.bytes();
             let mut switch = false;
@@ -18,7 +18,7 @@ impl Problem for Input {
                 let b = byte.expect("Error while reading input.");
                 match b {
                     b',' | b'\n' | b'\r' => {
-                        find_invalids(&mut invalids, start, end);
+                        total += find_invalids(start, end);
                         start = 0;
                         end = 0;
                         switch = false;
@@ -35,11 +35,8 @@ impl Problem for Input {
                     _ => println!("Unexpected character")
                 }
             }
-            if start != 0 || end != 0 {
-                find_invalids(&mut invalids, start, end);
-            }
         }
-        invalids.iter().sum()
+        total
     }
 
     fn part_two(&self) -> u64 {
@@ -47,12 +44,14 @@ impl Problem for Input {
     }
 } 
 
-fn find_invalids(invalids : &mut Vec<u64>, start : u64, end : u64) {
+fn find_invalids(start : u64, end : u64) -> u64 {
+    let mut total = 0;
     for num in start..end {
         if is_repeat_half(num) {
-            invalids.push(num);
+            total += num;
         }
     }
+    total
 }
 
 fn is_repeat_half(num: u64) -> bool {
