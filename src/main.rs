@@ -14,7 +14,7 @@ trait Problem {
 fn main() {
     let problem_num: Vec<String> = env::args().collect();
 
-    let problem: Box<dyn Problem> = match problem_num.get(1).map(|s| s.as_str()) {
+    let problem : Box<dyn Problem> = match problem_num.get(1).map(|s| s.as_str()) {
         Some("2025/1") => Box::new(year_2025::problem_one::Input),
         Some("2025/2") => Box::new(year_2025::problem_two::Input),
         _ => panic!("Invalid input"),
