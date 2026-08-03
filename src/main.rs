@@ -12,11 +12,10 @@ trait Problem {
 }
 
 fn main() {
-    let problem_num: Vec<String> = env::args().collect();
-
-    let problem : Box<dyn Problem> = match problem_num.get(1).map(|s| s.as_str()) {
-        Some("2025/1") => Box::new(year_2025::problem_one::Input),
-        Some("2025/2") => Box::new(year_2025::problem_two::Input),
+    let problem : &dyn Problem = match env::args().nth(1).as_deref() {
+        Some("2025/1") => &year_2025::problem_one::Input,
+        Some("2025/2") => &year_2025::problem_two::Input,
+        Some("2025/3") => &year_2025::problem_three::Input,
         _ => panic!("Invalid input"),
     };
 
